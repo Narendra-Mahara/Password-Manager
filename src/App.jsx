@@ -1,7 +1,7 @@
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { databases } from "./lib/appwrite.js";
+import { databases, client } from "./lib/appwrite.js";
 import { ID, Query } from "appwrite";
 import CryptoJS from "crypto-js";
 
@@ -9,16 +9,17 @@ const App = () => {
   const [site, setSite] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [data, setData] = useState(0);
+  const [fetchedData, setFetchedData] = useState({});
+  const [hidePassword, setHidePassword] = useState(true);
+  const decryptedpass = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // Encryption
     const ciphertext = CryptoJS.AES.encrypt(
       password,
       import.meta.env.VITE_SECRET_KEY
     ).toString();
-    console.log(ciphertext);
 
     const response = await databases.createDocument(
       import.meta.env.VITE_APPWRITE_DATABASE_ID,
@@ -26,12 +27,23 @@ const App = () => {
       ID.unique(),
       { site, username, password: ciphertext }
     );
-    console.log(response);
-
     setPassword("");
     setUsername("");
     setSite("");
   };
+
+  const fetchData = async () => {
+    let response = await databases.listDocuments(
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      import.meta.env.VITE_APPWRITE_COLLECTION_ID
+    );
+    setFetchedData(response.documents);
+    setData(response.total);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-svh relative">
@@ -107,38 +119,52 @@ const App = () => {
       {/* For Mobiles */}
       <div className="text-white py-9 px-5 md:hidden">
         <h3 className="text-2xl font-bold">Your Passwords</h3>
-        <h5 className="text-lg">Nothing to show.</h5>
-
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-lg p-2  bg-zinc-800 rounded-sm">
-            <p>http://narendrais.live</p>
-            <lord-icon
-              className="h-5"
-              src="https://cdn.lordicon.com/tylxcnti.json"
-              trigger="hover"
-              stroke="bold"
-              colors="primary:#ffffff"
-            ></lord-icon>
+        {data == 0 ? (
+          <h5 className="text-lg">Nothing to show.</h5>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {fetchedData.map((item) => (
+              <div
+                key={item.$id}
+                className="flex items-center justify-between text-lg p-2  bg-zinc-800 rounded-sm"
+              >
+                <p>{item.site}</p>
+                <lord-icon
+                  className="h-5"
+                  src="https://cdn.lordicon.com/tylxcnti.json"
+                  trigger="hover"
+                  stroke="bold"
+                  colors="primary:#ffffff"
+                ></lord-icon>
+              </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
 
       {/* For Desktop */}
       <div className="text-white px-10 py-8 hidden md:block ">
         <h3 className="text-2xl">Your Passwords</h3>
-        <h5 className="text-lg">Nothing to show.</h5>
-        <div className="grid grid-cols-3 bg-zinc-900 p-2 rounded-md font-bold">
-          <h2>Website</h2>
-          <h2>Username</h2>
-          <h2>Password</h2>
-        </div>
-        <div className="flex flex-col py-2 gap-2">
-          <div className="grid grid-cols-3 p-2  bg-zinc-800 rounded-sm">
-            <p>https://narendrais.live</p>
-            <p>narendra</p>
-            <p>password123</p>
-          </div>
-        </div>
+        {data == 0 ? (
+          <h5 className="text-lg">Nothing to show.</h5>
+        ) : (
+          <>
+            <div className="grid grid-cols-3 bg-zinc-900 p-2 rounded-md font-bold">
+              <h2>Website</h2>
+              <h2>Username</h2>
+              <h2>Password</h2>
+            </div>
+            {fetchedData.map((item) => (
+              <div key={item.$id} className="flex flex-col py-2 gap-2">
+                <div className="grid grid-cols-3 p-2  bg-zinc-800 rounded-sm">
+                  <p>{item.site}</p>
+                  <p>{item.username}</p>
+                  <p>**********</p>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       <Footer />
