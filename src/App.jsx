@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { databases } from "./lib/appwrite.js";
 import { ID, Query } from "appwrite";
+import CryptoJS from "crypto-js";
 
 const App = () => {
   const [site, setSite] = useState("");
@@ -11,11 +12,19 @@ const App = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Encryption
+    const ciphertext = CryptoJS.AES.encrypt(
+      password,
+      import.meta.env.VITE_SECRET_KEY
+    ).toString();
+    console.log(ciphertext);
+
     const response = await databases.createDocument(
       import.meta.env.VITE_APPWRITE_DATABASE_ID,
       import.meta.env.VITE_APPWRITE_COLLECTION_ID,
       ID.unique(),
-      { site, username, password }
+      { site, username, password: ciphertext }
     );
     console.log(response);
 
