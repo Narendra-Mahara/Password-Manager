@@ -1,10 +1,27 @@
-import React from "react";
+import { use, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { databases } from "./lib/appwrite.js";
+import { ID, Query } from "appwrite";
 
 const App = () => {
-  const handleSubmit = (e) => {
+  const [site, setSite] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const response = await databases.createDocument(
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      import.meta.env.VITE_APPWRITE_COLLECTION_ID,
+      ID.unique(),
+      { site, username, password }
+    );
+    console.log(response);
+
+    setPassword("");
+    setUsername("");
+    setSite("");
   };
 
   return (
@@ -18,30 +35,42 @@ const App = () => {
         }}
       >
         <input
+          value={site}
           type="url"
           name="url"
           id="url"
           className="text-white w-full text-xl outline-none border border-zinc-800 rounded-md p-2"
           placeholder="Enter website URL"
           required
+          onChange={(e) => {
+            setSite(e.target.value);
+          }}
         />
         <div className="flex flex-col gap-2 md:flex-row">
           <input
+            value={username}
             className="text-white w-full md:w-3/4 text-xl outline-none border border-zinc-800 rounded-md p-2"
             type="text"
             name="text"
             id="text"
             placeholder="Username"
             required
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
           />
           <div className="relative  w-full  md:w-1/2">
             <input
+              value={password}
               className="text-white text-xl  w-full outline-none border border-zinc-800 rounded-md py-2 pr-8 pl-2 "
               type="password"
               name="password"
               id="password"
               placeholder="Password"
               required
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
             <lord-icon
               className="absolute right-0 top-2 cursor-pointer"
@@ -96,7 +125,7 @@ const App = () => {
         </div>
         <div className="flex flex-col py-2 gap-2">
           <div className="grid grid-cols-3 p-2  bg-zinc-800 rounded-sm">
-            <p>https://narendraisorjgsaj.live</p>
+            <p>https://narendrais.live</p>
             <p>narendra</p>
             <p>password123</p>
           </div>
