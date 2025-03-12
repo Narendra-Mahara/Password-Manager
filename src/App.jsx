@@ -11,7 +11,7 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [data, setData] = useState(0);
   const [fetchedData, setFetchedData] = useState({});
-  const [hidePassword, setHidePassword] = useState(true);
+  const [hidePassword, setHidePassword] = useState(false);
   const decryptedpass = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,8 +83,8 @@ const App = () => {
           <div className="relative  w-full  md:w-1/2">
             <input
               value={password}
-              className="text-white text-xl  w-full outline-none border border-zinc-800 rounded-md py-2 pr-8 pl-2 "
-              type="password"
+              className="text-white text-xl  w-full outline-none border border-zinc-800 rounded-md py-2 pr-9 pl-2 "
+              type={hidePassword?"text":"password"}
               name="password"
               id="password"
               placeholder="Password"
@@ -93,12 +93,25 @@ const App = () => {
                 setPassword(e.target.value);
               }}
             />
-            <lord-icon
-              className="absolute right-0 top-2 cursor-pointer"
-              src="https://cdn.lordicon.com/iykgtsbt.json"
-              trigger="hover"
-              colors="primary:#ffffff"
-            ></lord-icon>
+            {hidePassword ? (
+              <img
+                className="absolute right-1.5 top-2 cursor-pointer w-7"
+                src="/eyeopen.png"
+                alt="eyeopen"
+                onClick={() => {
+                  setHidePassword(!hidePassword);
+                }}
+              />
+            ) : (
+              <img
+                className="absolute right-1.5 top-2 cursor-pointer w-7"
+                src="/eyeclose.png"
+                alt="eyeclose"
+                onClick={() => {
+                  setHidePassword(!hidePassword);
+                }}
+              />
+            )}
           </div>
         </div>
         <div className="text-white flex items-center justify-center gap-1 mt-5">
