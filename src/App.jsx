@@ -12,6 +12,11 @@ const App = () => {
   const [data, setData] = useState(0);
   const [fetchedData, setFetchedData] = useState({});
   const [hidePassword, setHidePassword] = useState(false);
+  const [expandedItemId, setExpandedItemId] = useState(null);
+
+  const handleToggle = (id) => {
+    setExpandedItemId((prevId) => (prevId === id ? null : id));
+  };
   const decryptedpass = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,16 +144,50 @@ const App = () => {
             {fetchedData.map((item) => (
               <div
                 key={item.$id}
-                className="flex items-center justify-between text-lg p-2  bg-zinc-800 rounded-sm"
+                className="group transition-all duration-300 ease-out"
               >
-                <p>{item.site}</p>
-                <lord-icon
-                  className="h-5"
-                  src="https://cdn.lordicon.com/tylxcnti.json"
-                  trigger="click"
-                  stroke="bold"
-                  colors="primary:#ffffff"
-                ></lord-icon>
+                {/* Accordion Header */}
+                <div
+                  className="flex items-center justify-between p-4 bg-zinc-800 hover:bg-zinc-700 rounded-lg cursor-pointer transition-colors duration-200"
+                  onClick={() => handleToggle(item.$id)}
+                >
+                  <p className="text-lg font-medium text-white">{item.site}</p>
+                  <lord-icon
+                    className="h-6 w-6 transform transition-transform duration-300"
+                    src={
+                      expandedItemId === item.$id
+                        ? "https://cdn.lordicon.com/dpvmxpzt.json"
+                        : "https://cdn.lordicon.com/tylxcnti.json"
+                    }
+                    trigger="click"
+                    colors="primary:#ffffff"
+                    style={
+                      expandedItemId === item.$id
+                        ? { transform: "rotate(180deg)" }
+                        : {}
+                    }
+                  ></lord-icon>
+                </div>
+
+                {/* Accordion Content */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    expandedItemId === item.$id
+                      ? "max-h-40 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="p-4 bg-zinc-750 rounded-b-lg border-t border-zinc-600">
+                    {/* Add your content here */}
+                    <p className="text-zinc-300">
+                    Username:  {item.username}
+                    </p>
+                    <p className="text-zinc-300">
+                    Password: ********
+                    </p>
+                    {/* Add more details as needed */}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -205,7 +244,6 @@ const App = () => {
                       src="https://cdn.lordicon.com/iykgtsbt.json"
                       trigger="click"
                       colors="primary:#ffffff"
-                      
                     ></lord-icon>
                   </p>
                 </div>
