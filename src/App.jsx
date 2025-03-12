@@ -84,7 +84,7 @@ const App = () => {
             <input
               value={password}
               className="text-white text-xl  w-full outline-none border border-zinc-800 rounded-md py-2 pr-9 pl-2 "
-              type={hidePassword?"text":"password"}
+              type={hidePassword ? "text" : "password"}
               name="password"
               id="password"
               placeholder="Password"
@@ -145,7 +145,7 @@ const App = () => {
                 <lord-icon
                   className="h-5"
                   src="https://cdn.lordicon.com/tylxcnti.json"
-                  trigger="hover"
+                  trigger="click"
                   stroke="bold"
                   colors="primary:#ffffff"
                 ></lord-icon>
@@ -170,9 +170,44 @@ const App = () => {
             {fetchedData.map((item) => (
               <div key={item.$id} className="flex flex-col py-2 gap-2">
                 <div className="grid grid-cols-3 p-2  bg-zinc-800 rounded-sm">
-                  <p>{item.site}</p>
-                  <p>{item.username}</p>
-                  <p>**********</p>
+                  <p className="flex items-center gap-2">
+                    {item.site}{" "}
+                    <lord-icon
+                      className="cursor-pointer"
+                      src="https://cdn.lordicon.com/iykgtsbt.json"
+                      trigger="click"
+                      colors="primary:#ffffff"
+                      onClick={(e) => {
+                        navigator.clipboard.writeText(
+                          e.target.parentElement.innerText
+                        );
+                      }}
+                    ></lord-icon>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    {item.username}{" "}
+                    <lord-icon
+                      className="cursor-pointer"
+                      src="https://cdn.lordicon.com/iykgtsbt.json"
+                      trigger="click"
+                      colors="primary:#ffffff"
+                      onClick={(e) => {
+                        navigator.clipboard.writeText(
+                          e.target.parentElement.innerText
+                        );
+                      }}
+                    ></lord-icon>
+                  </p>
+                  <p className="flex items-center gap-2" value={item.password}>
+                    **********
+                    <lord-icon
+                      className="cursor-pointer"
+                      src="https://cdn.lordicon.com/iykgtsbt.json"
+                      trigger="click"
+                      colors="primary:#ffffff"
+                      
+                    ></lord-icon>
+                  </p>
                 </div>
               </div>
             ))}
