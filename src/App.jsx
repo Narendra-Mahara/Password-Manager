@@ -146,30 +146,26 @@ const App = () => {
                 key={item.$id}
                 className="group transition-all duration-300 ease-out"
               >
-                {/* Accordion Header */}
                 <div
                   className="flex items-center justify-between p-4 bg-zinc-800 hover:bg-zinc-700 rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleToggle(item.$id)}
                 >
                   <p className="text-lg font-medium text-white">{item.site}</p>
                   <lord-icon
-                    className="h-6 w-6 transform transition-transform duration-300"
-                    src={
-                      expandedItemId === item.$id
-                        ? "https://cdn.lordicon.com/dpvmxpzt.json"
-                        : "https://cdn.lordicon.com/tylxcnti.json"
-                    }
+                    className="h-6 w-6 transition-transform duration-300"
+                    src="https://cdn.lordicon.com/tylxcnti.json"
                     trigger="click"
                     colors="primary:#ffffff"
-                    style={
-                      expandedItemId === item.$id
-                        ? { transform: "rotate(180deg)" }
-                        : {}
-                    }
+                    style={{
+                      transform:
+                        expandedItemId === item.$id
+                          ? "rotate(90deg)"
+                          : "rotate(0deg)",
+                      transition: "transform 0.3s ease-in-out",
+                    }}
                   ></lord-icon>
                 </div>
 
-                {/* Accordion Content */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
                     expandedItemId === item.$id
@@ -178,14 +174,8 @@ const App = () => {
                   }`}
                 >
                   <div className="p-4 bg-zinc-750 rounded-b-lg border-t border-zinc-600">
-                    {/* Add your content here */}
-                    <p className="text-zinc-300">
-                    Username:  {item.username}
-                    </p>
-                    <p className="text-zinc-300">
-                    Password: ********
-                    </p>
-                    {/* Add more details as needed */}
+                    <p className="text-zinc-300">Username: {item.username}</p>
+                    <p className="text-zinc-300">Password: ********</p>
                   </div>
                 </div>
               </div>
