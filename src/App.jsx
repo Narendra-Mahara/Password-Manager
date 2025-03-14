@@ -174,8 +174,29 @@ const App = () => {
                   }`}
                 >
                   <div className="p-4 bg-zinc-750 rounded-b-lg border-t border-zinc-600">
-                    <p className="text-zinc-300">Username: {item.username}</p>
-                    <p className="text-zinc-300">Password: ********</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-zinc-300">Username: {item.username}</p>
+                      <lord-icon
+                        className="cursor-pointer"
+                        src="https://cdn.lordicon.com/iykgtsbt.json"
+                        trigger="click"
+                        colors="primary:#ffffff"
+                        onClick={(e) => {
+                          navigator.clipboard.writeText(
+                            item.username
+                          );
+                        }}
+                      ></lord-icon>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-zinc-300">Password: ********</p>
+                      <lord-icon
+                        className="cursor-pointer"
+                        src="https://cdn.lordicon.com/iykgtsbt.json"
+                        trigger="click"
+                        colors="primary:#ffffff"
+                      ></lord-icon>
+                    </div>
                   </div>
                 </div>
               </div>
