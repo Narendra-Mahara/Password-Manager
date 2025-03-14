@@ -1,47 +1,39 @@
 # Password Manager
 
-A secure password manager built with React, Tailwind CSS, and Appwrite for backend services. This application allows users to store and manage their passwords securely.
+A secure password management application built with React, Appwrite, and CryptoJS for encryption. Store and manage your passwords safely with a user-friendly interface.
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Appwrite](https://img.shields.io/badge/Appwrite-F02E65?style=for-the-badge&logo=appwrite&logoColor=white)
+![React Toastify](https://img.shields.io/badge/React_Toastify-2C2D72?style=for-the-badge&logo=react-toastify&logoColor=white)
+
 
 ## Features
 
-- Secure password storage with encryption (using `crypto-js`)
-- Database management with Appwrite
-- Responsive UI built with Tailwind CSS
-- Notifications using React Toastify
+- 🔒 AES-256 encryption for password storage
+- 🚀 Powered by Appwrite backend
+- 📱 Responsive UI with Tailwind CSS
+- 📋 Copy-to-clipboard functionality
+- 📢 Toast notifications with React Toastify
 
-## Tech Stack
+## Technologies Used
 
-- **Frontend**: React, Tailwind CSS, React Toastify
+- **Frontend**: React 
 - **Backend**: Appwrite
-- **Encryption**: Crypto-JS
-- **Development Tools**: Vite
+- **Encryption**: CryptoJS
+- **Styling**: Tailwind CSS
+- **Build Tool**: Vite
+- **Notifications**: React Toastify
 
 ## Installation
 
-Clone the repository and install dependencies:
+Clone the repository:
 
-```sh
+```bash
 git clone https://github.com/Narendra-Mahara/Password-Manager.git
 cd Password-Manager
 yarn
 ```
-
-## Usage
-
-### Development Server
-
-Start the development server:
-
-```sh
-yarn dev
-```
-
-### Build for Production
-
-```sh
-yarn build
-```
-
 
 ## Configuration
 
@@ -53,7 +45,3 @@ VITE_APPWRITE_DATABASE_ID=your_database_id
 VITE_APPWRITE_COLLECTION_ID=your_collection_id
 VITE_SECRET_KEY="your_secret_key"
 ```
-
-
-
-
