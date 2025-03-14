@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { databases, client } from "./lib/appwrite.js";
 import { ID, Query } from "appwrite";
-import CryptoJS from "crypto-js";
+import CryptoJS, { enc } from "crypto-js";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const App = () => {
@@ -18,7 +18,14 @@ const App = () => {
   const handleToggle = (id) => {
     setExpandedItemId((prevId) => (prevId === id ? null : id));
   };
-  const decryptedpass = {};
+  const decryptedpass = (cipherText) => {
+    var bytes = CryptoJS.AES.decrypt(
+      cipherText,
+      import.meta.env.VITE_SECRET_KEY
+    );
+    var originalPassword = bytes.toString(CryptoJS.enc.Utf8);
+    return originalPassword;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Encryption
@@ -236,6 +243,11 @@ const App = () => {
                           trigger="click"
                           colors="primary:#ffffff"
                           onClick={(e) => {
+                            let encryptedPassword = item.password;
+
+                            let originalPassword =
+                              decryptedpass(encryptedPassword);
+                            navigator.clipboard.writeText(originalPassword);
                             toast.success("Copied!", {
                               position: "top-right",
                               autoClose: 5000,
@@ -247,7 +259,6 @@ const App = () => {
                               theme: "dark",
                               transition: Bounce,
                             });
-                            navigator.clipboard.writeText("********");
                           }}
                         ></lord-icon>
                       </div>
@@ -318,9 +329,7 @@ const App = () => {
                             theme: "dark",
                             transition: Bounce,
                           });
-                          navigator.clipboard.writeText(
-                            e.target.parentElement.innerText
-                          );
+                          navigator.clipboard.writeText(item.username);
                         }}
                       ></lord-icon>
                     </p>
@@ -335,6 +344,10 @@ const App = () => {
                         trigger="click"
                         colors="primary:#ffffff"
                         onClick={(e) => {
+                          let encryptedPassword = item.password;
+                          let originalPassword =
+                            decryptedpass(encryptedPassword);
+                          navigator.clipboard.writeText(originalPassword);
                           toast.success("Copied!", {
                             position: "top-right",
                             autoClose: 5000,
@@ -346,7 +359,6 @@ const App = () => {
                             theme: "dark",
                             transition: Bounce,
                           });
-                          navigator.clipboard.writeText("********");
                         }}
                       ></lord-icon>
                     </p>
